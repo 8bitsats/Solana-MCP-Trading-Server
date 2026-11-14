@@ -173,6 +173,37 @@ The server supports the following JSON-RPC methods:
 }
 ```
 
+### Optional: Pre-Launch / Pre-Trade Solana Risk Check (`fahali-mcp`)
+
+Before executing mainnet launches or Solana trades (`NETWORK=mainnet-beta`), you can pair this server in Claude Desktop with [`fahali-mcp`](https://github.com/Future-Legends-Inc/fahali-mcp) (read-only market risk observations, no custody or order execution) to check live `SOLUSDT` volatility, regime state, and cross-asset contagion and attach a timestamped receipt to your run log:
+
+```json
+{
+  "mcpServers": {
+    "fahali-risk": {
+      "command": "npx",
+      "args": ["-y", "fahali-mcp"]
+    }
+  }
+}
+```
+
+Example JSON-RPC pre-trade check before calling `launch_token`:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "method": "callTool",
+  "params": {
+    "name": "assess_symbol_risk",
+    "arguments": {
+      "symbol": "SOLUSDT"
+    }
+  }
+}
+```
+
 ## Testing
 
 The project supports multiple testing options:
